@@ -19,27 +19,22 @@ void get_map(t_filler *f, char *buf)
 		i++;
 	}
 	f->init = 1;
-	ft_strdel(&buf);
+	// ft_strdel(&buf);
 }
 
-int copy_map(t_filler *f, char *buf)
+int copy_map(t_filler *f)
 {
-	// printf("enter copy map\n");
 	char *line;
 	int i;
 	int j;
 	int count;
 
-	// FILE *ID = fopen("test.txt", "a");
-	// fprintf(ID, "enter copy map\n");
-	// fclose(ID);
-
-
 	f->init = 0;
+
 	i = 0;
 	count = 0;
 	if(!(f->piece_tab = malloc(sizeof(int*) * f->piece_x)))
-		return(-1);
+		return(-1); // free f
 	while(get_next_line(0, &line) > 0)
 	{
 		if(line)
@@ -47,15 +42,11 @@ int copy_map(t_filler *f, char *buf)
 			if(ft_strstr(line, "Piece"))
 			{
 				count = 1;
-				// return(is_placable(f));
 				return(get_piece(f, line));
 			}
 			if(!(f->map_tab[i]=malloc(sizeof(int*) * f->map_y)))
 				return(-1);
 			j = 4;
-			// ID = fopen("test.txt", "a");
-			// 	fprintf(ID, "line %s\n", line);
-			// 	fclose(ID);
 			while((j < f->map_y + 4) && count == 0 )
 			{
 				if((line[j] = ft_toupper(line[j])) == f->p1)
@@ -66,12 +57,11 @@ int copy_map(t_filler *f, char *buf)
 					f->map_tab[i][j - 4] = 2;
 				j++;
 			}
+			// ft_strdel(&line);
 			i++;
 		}
 		else
-		{
-			return(-1);
-		}
+			return(-1); // free what has been allocated before, line, map, f
 	}
 	return(0);
 }

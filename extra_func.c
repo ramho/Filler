@@ -8,3 +8,14 @@ int get_digit(int *i, char *buf)
 		*i = *i + 1;
 	return(ret);
 }
+
+void 	init_struct(t_filler *f)
+{
+		f->map_x = 0;
+		f->map_y = 0;
+		f->piece_x = 0;
+		f->piece_y = 0;
+		f->count = 0;
+		f->play_x = 0;
+		f->play_y = 0;
+}

@@ -18,16 +18,8 @@ void get_player(t_filler *f)
   ft_strdel(&buf);
 }
 
-void 	init_struct(t_filler *f)
-{
-		f->map_x = 0;
-		f->map_y = 0;
-		f->piece_x = 0;
-		f->piece_y = 0;
-		f->count = 0;
-		f->play_x = 0;
-		f->play_y = 0;
-}
+// when print, free all
+//free gnl line
 
 int main()
 {
@@ -38,26 +30,20 @@ int main()
   int ret = 0;
 
   f = malloc(sizeof(*f));
-  f->init = 0;
   get_player(f);
-
-  tab = malloc(sizeof(char *) * 100);
+  f->init = 0;
   while((ret = get_next_line(0, &buf)) > 0)
   {
       if( f->init == 0)
           init_struct(f);
       if(ft_strstr(buf, "Plateau"))
-      {
         get_map(f, buf);
-      }
-      if(ft_strstr(buf, "   "))
+      if(ft_strstr(buf,"   "))
       {
-        copy_map(f, buf);
-        // FILE *ID = fopen("test.txt", "a");
-        // fprintf(ID, "x %d y %d\n",f->play_x, f->play_y);
-        // fclose(ID);
+        copy_map(f);
         ft_printf("%i %i\n", f->play_x, f->play_y);
       }
+      ft_strdel(&buf);
   }
   return(0);
 }

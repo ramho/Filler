@@ -18,6 +18,8 @@ typedef struct s_filler
   int map_x;
   int map_y;
   int **map_tab;
+  int map_first_p;
+  int first_p;
 
   int piece_x;
   int piece_y;
@@ -35,15 +37,18 @@ typedef struct s_filler
 
 
 
-void get_player(t_filler *f);
+int get_player(t_filler *f);
 
 void get_map(t_filler *f, char *line);
 int copy_map(t_filler *f);
+void copy_map_bis(t_filler *f, int *i, char *line);
 
 int		get_piece(t_filler *f, char *buf);
 int copy_piece(t_filler *f);
 
 int is_placable(t_filler *f);
+int algo_go_north(t_filler *f);
+int algo_go_south(t_filler *f);
 int is_placable_piece(t_filler *f, int mx, int my);
 
 int get_digit(int *i, char *buf);

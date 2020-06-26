@@ -3,10 +3,10 @@
 int get_digit(int *i, char *buf)
 {
 	int ret;
-	ret=ft_atoi(buf + *i);
-	while(ft_isdigit(buf[*i]))
+	ret = ft_atoi(buf + *i);
+	while (ft_isdigit(buf[*i]))
 		*i = *i + 1;
-	return(ret);
+	return (ret);
 }
 
 void 	init_struct(t_filler *f)

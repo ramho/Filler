@@ -42,13 +42,12 @@ int is_placable_piece(t_filler *f, int mx, int my)
 	return(0);
 }
 
-int is_placable(t_filler *f)
+int algo_go_north(t_filler *f)
 {
 	int x;
 	int y;
 
 	x = 0;
-	y = 0;
 	while(x < f->map_x)
 	{
 		y = 0;
@@ -65,6 +64,52 @@ int is_placable(t_filler *f)
 		x++;
 		if(x == ((f->map_x - f->piece_x) + 1))
 			return(0);
+	}
+	return(0);
+}
+
+int algo_go_south(t_filler *f)
+{
+	int x;
+	int y;
+
+	x = f->map_x - f->piece_x;
+	y = f->map_y - f->piece_y;
+	while(x >= 0)
+	{
+		y = f->map_y - f->piece_y;
+		while(y >= 0)
+		{
+			if(is_placable_piece(f, x, y) == 1)
+			{
+				f->play_x = x;
+				f->play_y = y;
+				return(1);
+			}
+			y--;
+		}
+		x--;
+	}
+	return(0);
+}
+
+
+int is_placable(t_filler *f)
+{
+	if (f->map_first_p < (f->map_x + 1) / 2)
+		{
+			FILE *ID = fopen("test.txt", "a");
+			fprintf(ID,"upper half, go south %d\n", f->map_first_p);
+			fclose(ID);
+			return(algo_go_south(f));
+
+		}
+	if (f->map_first_p >= (f->map_x + 1) / 2)
+	{
+		FILE *ID = fopen("test.txt", "a");
+		fprintf(ID,"lower half, go north %d\n", f->map_first_p);
+		fclose(ID);
+		return(algo_go_north(f));
 	}
 	return(0);
 }

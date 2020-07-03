@@ -29,6 +29,7 @@ int main()
   char *buf;
   char **tab;
 
+
   f = malloc(sizeof(*f));
   if(get_player(f) == -1)
     return(-1); //free f
@@ -36,6 +37,9 @@ int main()
   f->first_p = 0;
   while((get_next_line(0, &buf)) > 0)
   {
+    FILE *ID = fopen("test.txt", "a");
+    fprintf(ID,"start loop\n");
+    fclose(ID);
       if( f->init == 0)
           init_struct(f);
       if(buf[0] == 'P' && buf[1] == 'l')
@@ -46,6 +50,9 @@ int main()
         ft_printf("%i %i\n", f->play_x, f->play_y);
       }
       ft_strdel(&buf);
+      ID = fopen("test.txt", "a");
+      fprintf(ID,"out loop\n");
+      fclose(ID);
   }
   return(0);
 }

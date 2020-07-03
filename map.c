@@ -27,7 +27,9 @@ int copy_map(t_filler *f)
 	char *line;
 	int i;
 	int j;
-
+	FILE *ID = fopen("test.txt", "a");
+	fprintf(ID,"in copy map\n");
+	fclose(ID);
 	f->init = 0;
 	i = 0;
 	if(!(f->map_tab = malloc(sizeof(int*) * f->map_x)))

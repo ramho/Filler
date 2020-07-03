@@ -27,9 +27,10 @@ int		get_piece(t_filler *f, char *buf)
 int copy_piece(t_filler *f)
 {
 	int i;
-	int j;
 	char *line;
-
+	FILE *ID = fopen("test.txt", "a");
+	fprintf(ID,"in copy piece\n");
+	fclose(ID);
 	i = 0;
 	if(!(f->piece_tab = malloc(sizeof(int*) * f->piece_x)))
 		return(-1);
@@ -40,15 +41,7 @@ int copy_piece(t_filler *f)
 		{
 			if(!(f->piece_tab[i]=malloc(sizeof(int*) * f->piece_y)))
 				return(-1);
-			j = 0;
-			while(j < f->piece_y)
-			{
-				if(line[j] == '*')
-					f->piece_tab[i][j] = 1;
-				else if (line[j] == '.')
-					f->piece_tab[i][j] = 0;
-				j++;
-			}
+			copy_piece_bis(f, &i, line);
 			i++;
 			if (i == (f->piece_x))
 			{
@@ -57,4 +50,19 @@ int copy_piece(t_filler *f)
 		}
 	}
 	return(0);
+}
+
+void copy_piece_bis(t_filler *f, int *i, char *line)
+{
+	int j;
+
+	j = 0;
+	while(j < f->piece_y)
+	{
+		if(line[j] == '*')
+			f->piece_tab[*i][j] = 1;
+		else if (line[j] == '.')
+			f->piece_tab[*i][j] = 0;
+		j++;
+	}
 }

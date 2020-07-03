@@ -45,11 +45,13 @@ void copy_map_bis(t_filler *f, int *i, char *line);
 
 int		get_piece(t_filler *f, char *buf);
 int copy_piece(t_filler *f);
+void copy_piece_bis(t_filler *f, int *i, char *line);
 
 int is_placable(t_filler *f);
 int algo_go_north(t_filler *f);
 int algo_go_south(t_filler *f);
 int is_placable_piece(t_filler *f, int mx, int my);
+int is_placable_bis(t_filler *f, int mx, int my, int x);
 
 int get_digit(int *i, char *buf);
 void 	init_struct(t_filler *f);

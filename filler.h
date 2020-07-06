@@ -32,6 +32,7 @@ typedef struct s_filler
 
   int count;
   int init;
+  int switch_algo;
 
 }   t_filler;
 
@@ -57,5 +58,6 @@ int get_digit(int *i, char *buf);
 void 	init_struct(t_filler *f);
 void		free_tab(t_filler *f);
 int	printf_error(t_filler *f);
+int	error_handle(t_filler *f);
 
 #endif

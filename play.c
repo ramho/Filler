@@ -39,6 +39,7 @@ int algo_go_north(t_filler *f)
 {
 	int x;
 	int y;
+	FILE *ID;
 
 	x = 0;
 	while(x < f->map_x)
@@ -50,15 +51,17 @@ int algo_go_north(t_filler *f)
 			{
 				f->play_x = x;
 				f->play_y = y;
+				// if(x < f->map_x * 0.1 )
+				// 	f->switch_algo = 1;
 				return(1);
 			}
 			y++;
 		}
 		x++;
 		if(x == ((f->map_x - f->piece_x) + 1))
-			return(0);
+			return(error_handle(f));
 	}
-	return(0);
+	return(error_handle(f));
 }
 
 int algo_go_south(t_filler *f)
@@ -67,7 +70,6 @@ int algo_go_south(t_filler *f)
 	int y;
 
 	x = f->map_x - f->piece_x;
-	y = f->map_y - f->piece_y;
 	while(x >= 0)
 	{
 		y = f->map_y - f->piece_y;
@@ -77,34 +79,27 @@ int algo_go_south(t_filler *f)
 			{
 				f->play_x = x;
 				f->play_y = y;
+				// if(x > f->map_x * 0.9)
+				// 	f->switch_algo = 1;
 				return(1);
 			}
 			y--;
 		}
 		x--;
 	}
-	return(0);
+	return(error_handle(f));
 }
 
 
 int play(t_filler *f)
 {
-	// FILE *ID = fopen("test.txt", "a");
-	// fprintf(ID,"map first p [%d] mapx + 1/2 [%d]\n", f->map_first_p, ((f->map_x + 1) / 2));
-	// fclose(ID);
-	if (f->map_first_p < (f->map_x + 1) / 2)
-	{
-		// ID = fopen("test.txt", "a");
-		// fprintf(ID," <= south\n");
-		// fclose(ID);
+	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 0)
 			return(algo_go_south(f));
-		}
-	if (f->map_first_p >= (f->map_x + 1) / 2)
-	{
-	// ID = fopen("test.txt", "a");
-	// fprintf(ID," > north\n");
-	// fclose(ID);
+	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
+			return(algo_go_north(f));
+	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 0)
 		return(algo_go_north(f));
-	}
-	return(0);
+	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 1)
+			return(algo_go_south(f));
+	return(error_handle(f));
 }

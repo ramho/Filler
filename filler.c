@@ -20,9 +20,6 @@ int		get_player(t_filler *f)
 	return (0);
 }
 
-// when print, free all
-//free gnl line
-
 int		main(void)
 {
 	t_filler	*f;
@@ -30,11 +27,12 @@ int		main(void)
 	char		**tab;
 
 	if(!(f = malloc(sizeof(*f))))
-    return(printf_error(f));
+    return (error_handle(f));
 	if (get_player(f) == -1)
-		return (printf_error(f)); //free f
+		return (error_handle(f));
 	f->init = 0;
 	f->first_p = 0;
+	f->switch_algo = 0;
 	while ((get_next_line(0, &buf)) > 0)
 	{
 		if (f->init == 0)
@@ -44,7 +42,7 @@ int		main(void)
 		if (ft_strstr(buf, "   "))
 		{
 			if(copy_map(f) == -1)
-				return (printf_error(f));
+				return (-1);
 			ft_printf("%i %i\n", f->play_x, f->play_y);
       free_tab(f);
 		}

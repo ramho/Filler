@@ -38,6 +38,7 @@ typedef struct s_filler
 
 
 int get_player(t_filler *f);
+int main(void);
 
 void get_map(t_filler *f, char *line);
 int copy_map(t_filler *f);
@@ -47,13 +48,14 @@ int		get_piece(t_filler *f, char *buf);
 int copy_piece(t_filler *f);
 void copy_piece_bis(t_filler *f, int *i, char *line);
 
-int is_placable(t_filler *f);
+int play(t_filler *f);
 int algo_go_north(t_filler *f);
 int algo_go_south(t_filler *f);
 int is_placable_piece(t_filler *f, int mx, int my);
-int is_placable_bis(t_filler *f, int mx, int my, int x);
 
 int get_digit(int *i, char *buf);
 void 	init_struct(t_filler *f);
+void		free_tab(t_filler *f);
+int	printf_error(t_filler *f);
 
 #endif

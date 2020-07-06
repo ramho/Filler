@@ -19,3 +19,17 @@ void 	init_struct(t_filler *f)
 		f->play_x = 0;
 		f->play_y = 0;
 }
+
+void		free_tab(t_filler *f)
+{
+	ft_memdel((void **)f->map_tab);
+	ft_memdel((void **)f->piece_tab);
+}
+
+int	printf_error(t_filler *f)
+{
+	if(f != NULL)
+		ft_memdel1((void *)f);
+	ft_printf("0 0\n");
+	return (-1);
+}

@@ -28,9 +28,7 @@ int copy_piece(t_filler *f)
 {
 	int i;
 	char *line;
-	FILE *ID = fopen("test.txt", "a");
-	fprintf(ID,"in copy piece\n");
-	fclose(ID);
+
 	i = 0;
 	if(!(f->piece_tab = malloc(sizeof(int*) * f->piece_x)))
 		return(-1);
@@ -45,7 +43,7 @@ int copy_piece(t_filler *f)
 			i++;
 			if (i == (f->piece_x))
 			{
-				return(is_placable(f));
+				return(play(f));
 			}
 		}
 	}
@@ -65,4 +63,5 @@ void copy_piece_bis(t_filler *f, int *i, char *line)
 			f->piece_tab[*i][j] = 0;
 		j++;
 	}
+	ft_strdel(&line);
 }

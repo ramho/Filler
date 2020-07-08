@@ -32,6 +32,8 @@ int copy_map(t_filler *f)
 	i = 0;
 	if (!(f->map_tab = malloc(sizeof(int*) * f->map_x)))
 		return (error_handle(f));
+	f->opp_piece = malloc(sizeof(int) * f->map_x * f->map_y);
+
 	while (get_next_line(0, &line) > 0)
 	{
 		if (line)
@@ -57,19 +59,24 @@ void copy_map_bis(t_filler *f, int *i, char *line)
 	j = 4;
 	while(j < f->map_y + 4)
 	{
-		if ((line[j] = ft_toupper(line[j])) == f->p1)
+		if (line[j] == f->p1)
 		{
-				f->map_tab[*i][j - 4] = 1;
-				if (f->first_p == 0)
-				{
-					f->first_p = 1;
-					f->map_first_p = *i;
-				}
+			f->map_tab[*i][j - 4] = 1;
+			if (f->first_p == 0)
+			{
+				f->first_p = 1;
+				f->map_first_p = *i;
+			}
 		}
-		if (line[j] == '.')
+		else if (line[j] == '.')
 			f->map_tab[*i][j - 4] = 0;
-		if ((line[j] = ft_toupper(line[j])) == f->p2)
+		else if (line[j] == f->p2)
+		{
 			f->map_tab[*i][j - 4] = 2;
+			f->opp_piece[f->o] = *i + (j - 4);
+			f->o++;
+		}
 		j++;
 	}
+	sort_int_tab(f->opp_piece, f->o);
 }

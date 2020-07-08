@@ -17,12 +17,12 @@ int is_placable_piece(t_filler *f, int mx, int my)
 		y = 0;
 		while (y < f->piece_y && my2 < f->map_y)
 		{
-				if(f->piece_tab[x][y] == 1 && f->map_tab[mx][my2] == 1)
-					f->count += 1;
-				if(f->piece_tab[x][y] == 1 && f->map_tab[mx][my2] == 2)
-					return(0);
-				if(f->count >= 2)
-					return(0);
+			if(f->piece_tab[x][y] == 1 && f->map_tab[mx][my2] == 1)
+				f->count += 1;
+			if(f->piece_tab[x][y] == 1 && f->map_tab[mx][my2] == 2)
+				return(0);
+			if(f->count >= 2)
+				return(0);
 			y++;
 			my2++;
 			tot++;
@@ -30,76 +30,102 @@ int is_placable_piece(t_filler *f, int mx, int my)
 		x++;
 		mx++;
 	}
-	if(f->count == 1 && tot == f->piece_tot)
+	if(f->count == 1 && tot == f->piece_tot) // je peux changer et mettre la limte dans le while de x
 		return(1);
 	return(0);
 }
 
-int algo_go_north(t_filler *f)
+
+
+int	check_best_pos(t_filler *f, int p)
 {
-	int x;
+	int i;
+	int j;
+	int currentdiff;
+	int smallestdiff;
+	FILE *ID = fopen("test.txt", "a");
+
+	i = 0;
+	j = 0;
+	smallestdiff = 1000;
+	while(i < f->o && j < p)
+	{
+		currentdiff = abs(f->opp_piece[i] - f->all_pieces[j][2]);
+		fprintf(ID, "current diff [%d] = %d - opp piece [%d] - my piece %d - [%d][%d]/%d - piece j [%d]\n", currentdiff, f->o, f->opp_piece[i] , p, f->all_pieces[j][0], f->all_pieces[j][1],f->all_pieces[j][2], j);
+		if(currentdiff < smallestdiff)
+		{
+			smallestdiff = currentdiff;
+			f->play_x = f->all_pieces[j][0];
+			f->play_y = f->all_pieces[j][1];
+		}
+		if(f->opp_piece[i] < f->all_pieces[j][2])
+			i++;
+		else
+			j++;
+	}
+	fprintf(ID, "piece [%d][%d]\n\n",f->play_x, f->play_y);
+	fclose(ID);
+	return(1);
+}
+
+int algo_3(t_filler *f)
+{
+		int x;
 	int y;
-	FILE *ID;
+	int i;
 
 	x = 0;
-	while(x < f->map_x)
+	i = 0;
+	f->all_pieces = malloc(sizeof(int*) * (f->map_x * f->map_y));
+	while(x < (f->map_x - f->piece_x))
 	{
+
 		y = 0;
-		while(y < f->map_y)
+		while (y < f->map_y)
 		{
-			if(is_placable_piece(f, x, y) == 1)
+			if(is_placable_piece(f,x,y) == 1)
 			{
-				f->play_x = x;
-				f->play_y = y;
-				// if(x < f->map_x * 0.1 )
-				// 	f->switch_algo = 1;
-				return(1);
+				f->all_pieces[i]=malloc(sizeof(int*) * 3);
+				f->all_pieces[i][0] = x;
+				f->all_pieces[i][1] = y;
+				f->all_pieces[i][2] = x + y;
+				// FILE *ID = fopen("test.txt", "a");
+				// fprintf(ID, " placable piece [%d][%d] = [%d]\n", x,y, x+y);
+				// fclose(ID);
+				i++;
 			}
 			y++;
 		}
 		x++;
-		if(x == ((f->map_x - f->piece_x) + 1))
-			return(error_handle(f));
 	}
-	return(error_handle(f));
+	sort_int_dtab(f->all_pieces, i);
+	return(check_best_pos(f, i));
 }
-
-int algo_go_south(t_filler *f)
-{
-	int x;
-	int y;
-
-	x = f->map_x - f->piece_x;
-	while(x >= 0)
-	{
-		y = f->map_y - f->piece_y;
-		while(y >= 0)
-		{
-			if(is_placable_piece(f, x, y) == 1)
-			{
-				f->play_x = x;
-				f->play_y = y;
-				// if(x > f->map_x * 0.9)
-				// 	f->switch_algo = 1;
-				return(1);
-			}
-			y--;
-		}
-		x--;
-	}
-	return(error_handle(f));
-}
-
 
 int play(t_filler *f)
 {
+	// return(algo_3(f));
 	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 0)
 			return(algo_go_south(f));
+	// if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
+	// 		return(algo_go_north(f));
+	// if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
+	// 	return(algo_sw_ne(f));
+	// if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
+	// 		return(algo_3(f));
 	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
-			return(algo_go_north(f));
+		return(algo_ne_sw(f));
+
+
+
+
 	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 0)
 		return(algo_go_north(f));
+	// if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 1)
+	// 		return(algo_go_south(f));
+	// if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 1)
+	// 		return(algo_3(f));
 	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 1)
-			return(algo_go_south(f));
+		return(algo_sw_ne(f));
 	return(error_handle(f));
 }

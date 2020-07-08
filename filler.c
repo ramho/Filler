@@ -50,4 +50,3 @@ int		main(void)
   ft_memdel1((void *)f);
 	return (0);
 }
- //salut les cococs

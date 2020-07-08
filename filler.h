@@ -29,6 +29,9 @@ typedef struct s_filler
   int play_x;
   int play_y;
 
+  int **all_pieces;
+  int *opp_piece;
+  int o;
 
   int count;
   int init;
@@ -59,5 +62,17 @@ void 	init_struct(t_filler *f);
 void		free_tab(t_filler *f);
 int	printf_error(t_filler *f);
 int	error_handle(t_filler *f);
+void	sort_int_tab(int *tab, unsigned int size);
+void	sort_int_dtab(int **tab, unsigned int size);
+void	ft_swap(int *a, int *b);
+
+int algo_ne_sw(t_filler *f);
+int algo_sw_ne(t_filler *f);
 
 #endif
+
+/*
+FILE *ID = fopen("test.txt", "a");
+fprintf(ID, "\n");
+fclose(ID);
+  */

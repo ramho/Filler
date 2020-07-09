@@ -71,12 +71,7 @@ void copy_map_bis(t_filler *f, int *i, char *line)
 		else if (line[j] == '.')
 			f->map_tab[*i][j - 4] = 0;
 		else if (line[j] == f->p2)
-		{
 			f->map_tab[*i][j - 4] = 2;
-			f->opp_piece[f->o] = *i + (j - 4);
-			f->o++;
-		}
 		j++;
 	}
-	sort_int_tab(f->opp_piece, f->o);
 }

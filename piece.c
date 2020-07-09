@@ -22,7 +22,6 @@ int		get_piece(t_filler *f, char *buf)
 	ft_strdel(&buf);
 	f->piece_tot = f->piece_x * f->piece_y;
 	return (copy_piece(f));
-	// return(0);
 }
 
 int copy_piece(t_filler *f)
@@ -32,13 +31,13 @@ int copy_piece(t_filler *f)
 
 	i = 0;
 	if(!(f->piece_tab = malloc(sizeof(int*) * f->piece_x)))
-		return(-1); // free map
+		return(error_handle(f));
 	while(get_next_line(0, &line) >= 0)
 	{
 		if (line)
 		{
 			if(!(f->piece_tab[i]=malloc(sizeof(int*) * f->piece_y)))
-				return(-1);
+				return(error_handle(f)); // free line
 			copy_piece_bis(f, &i, line);
 			i++;
 			if (i == (f->piece_x))

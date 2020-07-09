@@ -31,57 +31,6 @@ void		free_tab(t_filler *f)
 		ft_memdel((void **)f->map_tab);
 	if (f->piece_tab != NULL)
 		ft_memdel((void **)f->piece_tab);
-	if (f->all_pieces != NULL)
-			ft_memdel((void**)f->all_pieces);
-	if (f->opp_piece!= NULL)
-		ft_memdel1((void*)f->opp_piece);
-}
-//
-// int	printf_error(t_filler *f)
-// {
-// 	if(f != NULL)
-// 		ft_memdel1((void *)f);
-// 	ft_printf("0 0\n");
-// 	return (-1);
-// }
-
-void	ft_swap(int *a, int *b)
-{
-	int tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-void	sort_int_tab(int *tab, unsigned int size)
-{
-	unsigned int i;
-	unsigned int j;
-
-	i = 0;
-	while (i++ < size)
-	{
-		j = -1;
-		while (++j < size - 1)
-			if (tab[j] > tab[j + 1])
-				ft_swap(&tab[j], &tab[j + 1]);
-	}
-}
-
-void	sort_int_dtab(int **tab, unsigned int size)
-{
-	unsigned int i;
-	unsigned int j;
-
-	i = 0;
-	while (i++ < size)
-	{
-		j = -1;
-		while (++j < size - 1)
-			if (tab[j][2] > tab[j + 1][2])
-				ft_swap(&tab[j][2], &tab[j + 1][2]);
-	}
 }
 
 int	error_handle(t_filler *f)
@@ -90,9 +39,6 @@ int	error_handle(t_filler *f)
 		ft_memdel((void **)f->map_tab);
 	if (f->piece_tab != NULL)
 		ft_memdel((void **)f->piece_tab);
-	if (f->all_pieces != NULL)
-		ft_memdel((void**)f->all_pieces);
-	if (f->opp_piece!= NULL)
 			ft_memdel1((void*)f->opp_piece);
 	if(f != NULL)
 		ft_memdel1((void *)f);

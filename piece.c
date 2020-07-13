@@ -59,7 +59,13 @@ void copy_piece_bis(t_filler *f, int *i, char *line)
 	while(j < f->piece_y)
 	{
 		if(line[j] == '*')
+		{
 			f->piece_tab[*i][j] = 1;
+			if(*i == 0)
+				f->border_piece = 1;
+			if(*i == f->piece_x - 1)
+				f->border_piece = 2;
+		}
 		else if (line[j] == '.')
 			f->piece_tab[*i][j] = 0;
 		j++;

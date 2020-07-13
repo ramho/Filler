@@ -23,6 +23,7 @@ void 	init_struct(t_filler *f)
 		f->all_pieces = NULL;
 		f->opp_piece = NULL;
 		f->o = 0;
+		f->border_piece = 0;
 }
 
 void		free_tab(t_filler *f)

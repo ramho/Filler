@@ -32,8 +32,6 @@ int copy_map(t_filler *f)
 	i = 0;
 	if (!(f->map_tab = malloc(sizeof(int*) * f->map_x)))
 		return (error_handle(f));
-	f->opp_piece = malloc(sizeof(int) * f->map_x * f->map_y);
-
 	while (get_next_line(0, &line) > 0)
 	{
 		if (line)

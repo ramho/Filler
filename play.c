@@ -37,13 +37,24 @@ int is_placable_piece(t_filler *f, int mx, int my)
 
 int play(t_filler *f)
 {
-	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 0)
-			return(algo_go_south(f));
-	if ((f->map_first_p < (f->map_x + 1) / 2) && f->switch_algo == 1)
-		return(algo_ne_sw(f));
-	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 0)
-		return(algo_go_north(f));
-	if ((f->map_first_p >= (f->map_x + 1) / 2) && f->switch_algo == 1)
-		return(algo_sw_ne(f));
+	//p1 start north
+	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 0)
+			return(algo_nw_se(f));
+	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 1)
+		return(algo_se_nw(f));
+	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 2)
+			return(algo_bottom_right(f));
+
+
+
+
+
+//p1 start south
+	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 0)
+		return(algo_se_nw(f));
+	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 3)
+		return(algo_nw_se(f));
+	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 4)
+			return(algo_top_left(f));
 	return(error_handle(f));
 }

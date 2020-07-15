@@ -22,31 +22,30 @@ int		get_player(t_filler *f)
 
 int		main(void)
 {
-	t_filler	*f;
+	t_filler	f;
 	char		*buf;
 	char		**tab;
+	int ret;
 
-	if(!(f = malloc(sizeof(*f))))
-    return (error_handle(f));
-	if (get_player(f) == -1)
-		return (error_handle(f));
-	f->init = 0;
-	f->first_p = 0;
-	f->switch_algo = 0;
-	while ((get_next_line(0, &buf)) > 0)
+	if (get_player(&f) == -1)
+		return (-1);
+	f.init = 0;
+	f.first_p = 0;
+	f.switch_algo = 0;
+	while ((ret = get_next_line(0, &buf)) > 0)
 	{
-		if (f->init == 0)
-			init_struct(f);
+		if (f.init == 0)
+			init_struct(&f);
 		if (buf[0] == 'P' && buf[1] == 'l')
-			get_map(f, buf);
+			get_map(&f, buf);
 		if (ft_strstr(buf, "   "))
 		{
-			if(copy_map(f) == -1)
+			if(copy_map(&f) == -1)
 				return (-1);
-			ft_printf("%i %i\n", f->play_x, f->play_y);
-      free_tab(f);
+			ft_printf("%i %i\n", f.play_x, f.play_y);
 		}
 	}
-  ft_memdel1((void *)f);
+	if(ret == -1)
+		return(-1);
 	return (0);
 }

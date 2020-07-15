@@ -37,24 +37,36 @@ int is_placable_piece(t_filler *f, int mx, int my)
 
 int play(t_filler *f)
 {
-	//p1 start north
-	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 0)
+	//haut gauche
+	if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 0)
 			return(algo_nw_se(f));
-	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 1)
+	if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 1)
 		return(algo_se_nw(f));
-	if ((f->map_first_p <= (f->map_x + 1) / 2) && f->switch_algo == 2)
+	if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 2)
 			return(algo_bottom_right(f));
 
+// haut droite *new*
+// 	if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py > f->map_y / 2 && f->switch_algo == 0)
+// 		return(algo_ne_sw(f));
+// 		if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py > f->map_y / 2 && f->switch_algo == 5)
+// 		return(algo_sw_ne(f));
+// 			if ((f->map_first_px <= (f->map_x + 1) / 2) && f->map_first_py > f->map_y / 2 && f->switch_algo == 6)
+// 			return(algo_top_left(f));
+//
+// // bas gauche *new*
+// if ((f->map_first_px > (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 0)
+// return(algo_sw_ne(f));
+// if ((f->map_first_px > (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 7)
+// return(algo_ne_sw(f));
+// if ((f->map_first_px > (f->map_x + 1) / 2) && f->map_first_py <= f->map_y / 2 && f->switch_algo == 8)
+// return(algo_bottom_right(f));
 
-
-
-
-//p1 start south
-	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 0)
+// bas droite
+	if ((f->map_first_px > (f->map_x + 1) / 2)  && f->switch_algo == 0)
 		return(algo_se_nw(f));
-	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 3)
+	if ((f->map_first_px > (f->map_x + 1) / 2)  && f->switch_algo == 3)
 		return(algo_nw_se(f));
-	if ((f->map_first_p > (f->map_x + 1) / 2) && f->switch_algo == 4)
+	if ((f->map_first_px > (f->map_x + 1) / 2) && f->switch_algo == 4)
 			return(algo_top_left(f));
-	return(error_handle(f));
+	return(error_handle(3, 0, f));
 }

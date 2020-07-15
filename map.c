@@ -24,30 +24,27 @@ void get_map(t_filler *f, char *buf)
 
 int copy_map(t_filler *f)
 {
-	char *line;
 	int i;
 	int j;
+	int ret;
 
 	f->init = 0;
 	i = 0;
 	if (!(f->map_tab = malloc(sizeof(int*) * f->map_x)))
-		return (error_handle(f));
-	while (get_next_line(0, &line) > 0)
+		return (-1);
+	while ((ret = get_next_line(0, &f->line)) > 0)
 	{
-		if (line)
-		{
-			if (line[0] == 'P' && line[1] == 'i')
-				return (get_piece(f, line));
+			if (f->line[0] == 'P' && f->line[1] == 'i')
+				return (get_piece(f, f->line));
 			if (!(f->map_tab[i] = malloc(sizeof(int*) * f->map_y)))
-				return (error_handle(f)); // free line
-			copy_map_bis(f, &i, line);
-			ft_strdel(&line);
+				return (error_handle(2, i, f));
+			copy_map_bis(f, &i, f->line);
+			ft_strdel(&f->line);
 			i++;
 		}
-		else
-			return (error_handle(f));
-	}
-	return (0);
+	if (ret <= 0)
+		return (error_handle(1,i,f));
+	return (error_handle(1,i,f));
 }
 
 void copy_map_bis(t_filler *f, int *i, char *line)
@@ -63,7 +60,8 @@ void copy_map_bis(t_filler *f, int *i, char *line)
 			if (f->first_p == 0)
 			{
 				f->first_p = 1;
-				f->map_first_p = *i;
+				f->map_first_px = *i;
+				f->map_first_py = j - 4;
 			}
 		}
 		else if (line[j] == '.')

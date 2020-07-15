@@ -27,28 +27,23 @@ int		get_piece(t_filler *f, char *buf)
 int copy_piece(t_filler *f)
 {
 	int i;
-	char *line;
+	int ret;
 
 	i = 0;
 	if(!(f->piece_tab = malloc(sizeof(int*) * f->piece_x)))
-		return(error_handle(f));
-	while(get_next_line(0, &line) >= 0)
+		return(error_handle(1,0,f));
+	while((ret = get_next_line(0, &f->line)) >= 0)
 	{
-		if (line)
-		{
 			if(!(f->piece_tab[i]=malloc(sizeof(int*) * f->piece_y)))
-				return(error_handle(f)); // free line
-			copy_piece_bis(f, &i, line);
+				return(error_handle(4, i, f));
+			copy_piece_bis(f, &i, f->line);
 			i++;
 			if (i == (f->piece_x))
-			{
 				return(play(f));
-			}
-		}
-		else
-			return (error_handle(f));
 	}
-	return(0);
+	if (ret <= 0)
+		return(error_handle(5, i, f));
+	return(error_handle(5, i, f));
 }
 
 void copy_piece_bis(t_filler *f, int *i, char *line)
